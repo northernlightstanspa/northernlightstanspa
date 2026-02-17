@@ -227,7 +227,7 @@ export default function PricingPage() {
                     label: "6 SESSIONS – GET 1 FREE",
                     prices: {
                       Silver: "$57.00",
-                      Gold: "Testing $90.00",
+                      Gold: "$90.00",
                       Titanium: "$105.00",
                       Platinum: "$120.00",
                       "Smart Sun": "$150.00",
