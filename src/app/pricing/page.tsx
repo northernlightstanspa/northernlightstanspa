@@ -201,7 +201,7 @@ export default function PricingPage() {
               <div className="lg:hidden space-y-4">
                 {[
                   {
-                    label: "MONTHLY",
+                    label: "MONTH",
                     prices: {
                       Silver: "$59.99",
                       Gold: "$90.99",
@@ -226,8 +226,8 @@ export default function PricingPage() {
                   {
                     label: "6 SESSIONS – GET 1 FREE",
                     prices: {
-                      Silver: "$62.00",
-                      Gold: "$92.00",
+                      Silver: "$57.00",
+                      Gold: "Testing $90.00",
                       Titanium: "$105.00",
                       Platinum: "$120.00",
                       "Smart Sun": "$150.00",
