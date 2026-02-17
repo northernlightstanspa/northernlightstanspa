@@ -58,7 +58,7 @@ export default function JobsPage() {
         }
       });
 
-      const response = await fetch("/api/job-application", {
+      const response = await fetch("/api/php/sendJobApplication.php", {
         method: "POST",
         body: formDataToSend,
       });
@@ -68,7 +68,7 @@ export default function JobsPage() {
       if (response.ok) {
         setSubmitStatus({
           type: "success",
-          message: "Thank you for your application! We will review it and get back to you soon.",
+          message: data.message || "Thank you for your application! We will review it and get back to you soon.",
         });
         // Reset form
         setFormData({
@@ -104,7 +104,7 @@ export default function JobsPage() {
       } else {
         setSubmitStatus({
           type: "error",
-          message: data.error || "Something went wrong. Please try again.",
+          message: data.message || data.error || "Something went wrong. Please try again.",
         });
       }
     } catch {
