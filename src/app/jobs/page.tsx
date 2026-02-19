@@ -58,7 +58,7 @@ export default function JobsPage() {
         }
       });
 
-      const response = await fetch("/api/php/sendJobApplication.php", {
+      const response = await fetch("/api/job-application", {
         method: "POST",
         body: formDataToSend,
       });
