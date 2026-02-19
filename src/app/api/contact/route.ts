@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
 
     await transporter.sendMail({
       from: '"Northern Lights Tan & Wellness" <noreply@northernlightstanspa.com>',
-      to: 'mdpanna600@gmail.com',
+      to: 'teri@mwtan.com',
       replyTo: email,
       subject: `New Contact Form Message - ${firstName} ${lastName}`,
       html: htmlContent,
