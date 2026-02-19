@@ -327,12 +327,12 @@ export async function POST(request: NextRequest) {
 
     // Configure nodemailer transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
+      host: 'smtp.hostinger.com',
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: 'noreply@northernlightstanspa.com',
+        pass: '5NgLPLnnXdY0dTkP&',
       },
     });
 
@@ -371,8 +371,8 @@ export async function POST(request: NextRequest) {
 
     // Send the email
     await transporter.sendMail({
-      from: `"Northern Lights Tan & Wellness" <${process.env.SMTP_USER}>`,
-      to: process.env.RECIPIENT_EMAIL || 'teri@mwtan.com',
+      from: '"Northern Lights Tan & Wellness" <noreply@northernlightstanspa.com>',
+      to: 'mdpanna600@gmail.com',
       replyTo: email,
       subject: `New Job Application: ${position} - ${firstName} ${lastName}`,
       html: htmlContent,
