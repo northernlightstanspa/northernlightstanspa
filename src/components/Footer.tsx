@@ -125,7 +125,8 @@ export default function Footer() {
       <div className="border-t border-gray-800">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500">
           <p>&copy; {new Date().getFullYear()} Northern Lights Tan & Wellness. All rights reserved.</p>
-         
+          <p className="mt-1">Web Design, Development service By <a href="https://www.freelancerhasib.com/" className="text-pink-400 hover:text-pink-300 transition-colors">freelancerhasib</a></p>
+
         </div>
       </div>
     </footer>
