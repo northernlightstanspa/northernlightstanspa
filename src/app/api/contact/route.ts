@@ -36,6 +36,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate SMTP configuration
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('Missing SMTP configuration: SMTP_USER and SMTP_PASS environment variables are required.');
+      return NextResponse.json(
+        { message: 'Email service is not configured. Please contact the administrator.' },
+        { status: 500 }
+      );
+    }
+
     // Configure nodemailer transporter
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
@@ -44,6 +53,9 @@ export async function POST(request: NextRequest) {
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
@@ -181,8 +193,14 @@ export async function POST(request: NextRequest) {
       message: 'Thank you for your message! We will get back to you soon.',
       status: 'success',
     });
-  } catch (error) {
-    console.error('Error sending contact email:', error);
+  } catch (error: unknown) {
+    const err = error as Error & { code?: string; responseCode?: number };
+    console.error('Error sending contact email:', {
+      message: err.message,
+      code: err.code,
+      responseCode: err.responseCode,
+      stack: err.stack,
+    });
     return NextResponse.json(
       { message: 'Failed to send email. Please try again later.' },
       { status: 500 }
