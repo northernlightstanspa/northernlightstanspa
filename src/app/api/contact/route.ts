@@ -36,26 +36,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate SMTP configuration
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('Missing SMTP configuration: SMTP_USER and SMTP_PASS environment variables are required.');
-      return NextResponse.json(
-        { message: 'Email service is not configured. Please contact the administrator.' },
-        { status: 500 }
-      );
-    }
-
     // Configure nodemailer transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
+      host: 'smtp.hostinger.com',
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
+        user: 'noreply@northernlightstanspa.com',
+        pass: '5NgLPLnnXdY0dTkP&',
       },
     });
 
@@ -182,8 +170,8 @@ export async function POST(request: NextRequest) {
 </html>`;
 
     await transporter.sendMail({
-      from: `"Northern Lights Tan & Wellness" <${process.env.SMTP_USER}>`,
-      to: process.env.RECIPIENT_EMAIL || 'teri@mwtan.com',
+      from: '"Northern Lights Tan & Wellness" <noreply@northernlightstanspa.com>',
+      to: 'mdpanna600@gmail.com',
       replyTo: email,
       subject: `New Contact Form Message - ${firstName} ${lastName}`,
       html: htmlContent,
@@ -193,14 +181,8 @@ export async function POST(request: NextRequest) {
       message: 'Thank you for your message! We will get back to you soon.',
       status: 'success',
     });
-  } catch (error: unknown) {
-    const err = error as Error & { code?: string; responseCode?: number };
-    console.error('Error sending contact email:', {
-      message: err.message,
-      code: err.code,
-      responseCode: err.responseCode,
-      stack: err.stack,
-    });
+  } catch (error) {
+    console.error('Error sending contact email:', error);
     return NextResponse.json(
       { message: 'Failed to send email. Please try again later.' },
       { status: 500 }
