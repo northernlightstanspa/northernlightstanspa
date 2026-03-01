@@ -38,8 +38,8 @@ export default function PromotionsPage() {
             {/* January Specials Card */}
             <div className="relative rounded-lg overflow-hidden shadow-xl mb-12">
               <Image
-                src="/img/promotion/February.png"
-                alt="January Specials"
+                src="/img/promotion/march.png"
+                alt="March Specials"
                 width={800}
                 height={800}
                 className="w-full h-auto"
