@@ -11,19 +11,39 @@ type TanningBed = {
   features?: string[];
   maxTime?: string;
   beds?: TanningBed[];
+  description?: string;
 };
 
 const tanningBeds: TanningBed[] = [
   {
     name: "Platinum",
-    image: "/img/uv-tanning/Platinum/img.gif",
-    features: [
-      "Low UVB reduces chance of reddening",
-      "Voice Guided",
-      "Body cooling ventilation",
-      "Base tan achieved in 3-5 sessions"
-    ],
-    maxTime: "12 min max"
+    beds: [
+      {
+        name: "Matrix L-33",
+        image: "/img/uv-tanning/Platinum/img.gif",
+        features: [
+          "Low UVB reduces chance of reddening",
+          "Voice Guided",
+          "Body cooling ventilation",
+          "Base tan achieved in 3-5 sessions"
+        ],
+        maxTime: "12 min max"
+      },
+      {
+        name: "KBL P9S",
+        image: "/img/uv-tanning/KBL-P9S/img.JPG",
+        description: "The P9S's innovative LED-based Sunsphere system only uses high end NEW technology featuring BLUE UVA LED's generating excellent direct pigmentation for an immediately visible tan without the \"reddening effect\",   RED LED's to provide skin care during your tanning session and YELLOW UVB special lamps which builds your pigment making this bed the PERFECT COMBINATION to receive the ultimate TAN!\nAdditionally,  you can customize the settings to how YOU like them with our easy to navigate touch screen! Choose from 3 levels of UV intensity, , voice guided, wireless charging, aqua and aroma therapy mist, full body air conditioning and of course RED light therapy to increase hydration as well as revitalize, relax, and detox the skin during your tanning session!",
+        features: [
+          "3 levels of UV intensity",
+          "Wireless charging",
+          "Voice guided",
+          "Aqua mist",
+          "Aromatherapy mist",
+          "Full body air conditioning"
+        ],
+        maxTime: "10 Min Max"
+      }
+    ]
   },
   {
     name: "Titanium",
@@ -117,6 +137,7 @@ const tanningBeds: TanningBed[] = [
 
 export default function UVTanningPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState<{[key: string]: number}>({});
+  const [expandedDescriptions, setExpandedDescriptions] = useState<{[key: string]: boolean}>({});
 
   const nextImage = (bedKey: string, totalImages: number) => {
     setCurrentImageIndex(prev => ({
@@ -274,6 +295,19 @@ export default function UVTanningPage() {
                               <h3 className="font-semibold text-gray-700 mb-3 text-lg underline">
                                 {subBed.name}
                               </h3>
+                              {subBed.description && (
+                                <div className="mb-4 text-sm text-gray-600">
+                                  <p className="mb-2">
+                                    {expandedDescriptions[bedKey] ? subBed.description : subBed.description.substring(0, 150) + "..."}
+                                  </p>
+                                  <button
+                                    onClick={() => setExpandedDescriptions(prev => ({ ...prev, [bedKey]: !prev[bedKey] }))}
+                                    className="text-orange-500 hover:text-orange-600 font-semibold text-xs"
+                                  >
+                                    {expandedDescriptions[bedKey] ? "See Less" : "See More"}
+                                  </button>
+                                </div>
+                              )}
                               {subBed.features && (
                               <ul className="space-y-2 text-sm text-gray-600">
                                 {subBed.maxTime && (

@@ -86,10 +86,10 @@ export default function PricingPage() {
                         <Price amount="90" cents="99" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="121" cents="99" />
+                        <Price amount="129" cents="99" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="139" cents="99" />
+                        <Price amount="169" cents="99" />
                       </td>
                       <td className="py-4 px-3 text-center">
                         <Price amount="59" cents="99" />
@@ -114,10 +114,10 @@ export default function PricingPage() {
                         <Price amount="15" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="18" cents="50" />
+                        <Price amount="20" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="25" cents="00" />
+                        <Price amount="32" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
                         <Price amount="10" cents="00" />
@@ -154,10 +154,10 @@ export default function PricingPage() {
                         <Price amount="90" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="105" cents="00" />
+                        <Price amount="114" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="120" cents="00" />
+                        <Price amount="159" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center text-gray-400">N/A</td>
                       <td className="py-4 px-3 text-center text-gray-400">N/A</td>
@@ -184,10 +184,10 @@ export default function PricingPage() {
                         <Price amount="146" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="160" cents="00" />
+                        <Price amount="175" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center">
-                        <Price amount="174" cents="00" />
+                        <Price amount="224" cents="00" />
                       </td>
                       <td className="py-4 px-3 text-center text-gray-400">N/A</td>
                       <td className="py-4 px-3 text-center text-gray-400">N/A</td>
@@ -312,11 +312,11 @@ export default function PricingPage() {
                 </h3>
                 <div className="space-y-2 mt-4 text-sm">
                   <PriceLine label="SILVER ▸ GOLD" price="$5.50" />
-                  <PriceLine label="SILVER ▸ TITANIUM" price="$9.00" />
-                  <PriceLine label="SILVER ▸ PLATINUM" price="$16.50" />
-                  <PriceLine label="GOLD ▸ TITANIUM" price="$4.00" />
-                  <PriceLine label="GOLD ▸ PLATINUM" price="$11.50" />
-                  <PriceLine label="TITANIUM ▸ PLATINUM" price="$8.50" />
+                  <PriceLine label="SILVER ▸ TITANIUM" price="$10.50" />
+                  <PriceLine label="SILVER ▸ PLATINUM" price="$22.50" />
+                  <PriceLine label="GOLD ▸ TITANIUM" price="$5.00" />
+                  <PriceLine label="GOLD ▸ PLATINUM" price="$17.00" />
+                  <PriceLine label="TITANIUM ▸ PLATINUM" price="$12.00" />
                 </div>
               </div>
             </div>
@@ -448,12 +448,25 @@ export default function PricingPage() {
                   ]}
                 />
 
+                {/* Sunless */}
+                <MembershipCard
+                  tier="Sunless"
+                  price="69.99"
+                  color="from-orange-400 to-amber-600"
+                  perks={[
+                    "One clear or bronze spray (including all levels and prep and hydrate) every 4 days",
+                    "Unlimited Poly Red Light Treatments",
+                    "20% Off BleachBright Professional Teeth Whitening",
+                    "25% Off All Red Light Products",
+                  ]}
+                />
+
                 {/* Membership Benefits */}
                 <div className="bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-gray-200 overflow-hidden sm:col-span-2 lg:col-span-1 flex flex-col">
                   <div className="grid grid-cols-2 gap-0">
                     <div className="overflow-hidden p-3">
                       <img
-                        src="/img/pricing/img.jpg"
+                        src="/img/pricing/KBL-P9S/img.png"
                         alt="Membership pricing"
                         className="w-full h-44 object-contain hover:scale-105 transition-transform duration-300"
                       />
@@ -467,20 +480,8 @@ export default function PricingPage() {
                     </div>
                   </div>
                   <div className="p-6 flex flex-col flex-1">
-                  <h3
-                    className="text-2xl font-bold mb-4"
-                    style={{ fontFamily: "'Bellefair', serif" }}
-                  >
-                    Membership Benefits
-                  </h3>
                   <ul className="space-y-2 text-sm text-gray-700 flex-1">
                     {[
-                      "Unlimited Tans in Your Chosen Level or below (1 per day)",
-                      "50% Off Upgrades to Higher Levels",
-                      "50% Off Lotion Purchases",
-                      "Discounted/Included Spray Tans",
-                      "Discounted/Included Red Light Therapy",
-                      "Discounted BleachBright Teeth Whitening Services",
                       "3 Month Minimum",
                       "$5.00/mo Freeze Option (2 month max, per year) after 3 Month Minimum",
                       "Only $19.99 Enrollment Fee",
