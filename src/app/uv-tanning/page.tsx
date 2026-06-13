@@ -18,17 +18,7 @@ const tanningBeds: TanningBed[] = [
   {
     name: "Platinum",
     beds: [
-      {
-        name: "Matrix L-33",
-        image: "/img/uv-tanning/Platinum/img.gif",
-        features: [
-          "Low UVB reduces chance of reddening",
-          "Voice Guided",
-          "Body cooling ventilation",
-          "Base tan achieved in 3-5 sessions"
-        ],
-        maxTime: "12 min max"
-      },
+      
       {
         name: "KBL P9S",
         image: "/img/uv-tanning/KBL-P9S/img.JPG",
@@ -42,6 +32,17 @@ const tanningBeds: TanningBed[] = [
           "Full body air conditioning"
         ],
         maxTime: "10 Min Max"
+      },
+      {
+        name: "Matrix L-33",
+        image: "/img/uv-tanning/Platinum/img.gif",
+        features: [
+          "Low UVB reduces chance of reddening",
+          "Voice Guided",
+          "Body cooling ventilation",
+          "Base tan achieved in 3-5 sessions"
+        ],
+        maxTime: "12 min max"
       }
     ]
   },

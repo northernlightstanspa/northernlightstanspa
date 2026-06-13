@@ -5,7 +5,7 @@ const services = [
   {
     title: "UV TANNING",
     description: "Experience our state-of-the-art UV tanning beds with multiple levels to choose from. Get that perfect sun-kissed glow year-round.",
-    image: "/img/uv-tanning/Titanium/img.jpg",
+    image: "/img/uv-tanning/KBL-P9S/img.png",
     href: "/uv-tanning",
   },
   {
