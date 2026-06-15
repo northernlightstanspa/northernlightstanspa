@@ -35,7 +35,7 @@ const tanningBeds: TanningBed[] = [
       },
       {
         name: "Matrix L-33",
-        image: "/img/uv-tanning/Platinum/img.gif",
+        image: "/img/uv-tanning/Platinum/img.png",
         features: [
           "Low UVB reduces chance of reddening",
           "Voice Guided",
