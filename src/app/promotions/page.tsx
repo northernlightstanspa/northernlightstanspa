@@ -45,15 +45,7 @@ export default function PromotionsPage() {
                 className="w-full h-auto"
               />
             </div>
-            <div className="relative rounded-lg overflow-hidden shadow-xl mb-12">
-              <Image
-                src="/img/promotion/Add-a-heading.png"
-                alt="June Specials"
-                width={800}
-                height={800}
-                className="w-full h-auto"
-              />
-            </div>
+          
 
             {/* Placeholder for future promotions - Update monthly */}
             <div className="text-center py-8">
