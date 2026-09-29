@@ -1,23 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { getMailer, getMailFrom, getMailTo } from '@/lib/mailer';
+import {
+  HONEYPOT_FIELD,
+  cleanText,
+  escapeHtml,
+  findTooLongField,
+  guardFormRequest,
+  isValidEmail,
+} from '@/lib/security';
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+const SUCCESS_MESSAGE = 'Thank you for your message! We will get back to you soon.';
 
 export async function POST(request: NextRequest) {
-  try {
-    const data = await request.json();
+  const blocked = guardFormRequest(request, {
+    name: 'contact',
+    maxBodyBytes: 32 * 1024,
+    rateLimit: 5,
+    rateLimitWindowMs: 15 * 60 * 1000,
+  });
+  if (blocked) return blocked;
 
-    const firstName = (data.firstName || '').trim();
-    const lastName = (data.lastName || '').trim();
-    const email = (data.email || '').trim();
-    const comment = (data.comment || '').trim();
+  try {
+    let data: Record<string, unknown>;
+    try {
+      data = await request.json();
+    } catch {
+      return NextResponse.json({ message: 'Invalid request.' }, { status: 400 });
+    }
+    if (!data || typeof data !== 'object') {
+      return NextResponse.json({ message: 'Invalid request.' }, { status: 400 });
+    }
+
+    // Bots fill in the hidden honeypot field; pretend it worked and drop it.
+    if (cleanText(data[HONEYPOT_FIELD])) {
+      return NextResponse.json({ message: SUCCESS_MESSAGE, status: 'success' });
+    }
+
+    const firstName = cleanText(data.firstName);
+    const lastName = cleanText(data.lastName);
+    const email = cleanText(data.email);
+    const comment = cleanText(data.comment, { multiline: true });
 
     // Validate required fields
     if (!firstName || !lastName || !email || !comment) {
@@ -27,25 +49,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const tooLongField = findTooLongField([
+      ['First name', firstName, 100],
+      ['Last name', lastName, 100],
+      ['Email', email, 254],
+      ['Message', comment, 5000],
+    ]);
+    if (tooLongField) {
+      return NextResponse.json(
+        { message: `${tooLongField} is too long.` },
+        { status: 400 }
+      );
+    }
+
     // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         { message: 'Please provide a valid email address.' },
         { status: 400 }
       );
     }
-
-    // Configure nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.hostinger.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'noreply@northernlightstanspa.com',
-        pass: '5NgLPLnnXdY0dTkP&',
-      },
-    });
 
     const htmlContent = `<!DOCTYPE html>
 <html>
@@ -169,16 +192,16 @@ export async function POST(request: NextRequest) {
 </body>
 </html>`;
 
-    await transporter.sendMail({
-      from: '"Northern Lights Tan & Wellness" <noreply@northernlightstanspa.com>',
-      to: 'teri@mwtan.com',
+    await getMailer().sendMail({
+      from: getMailFrom(),
+      to: getMailTo(),
       replyTo: email,
       subject: `New Contact Form Message - ${firstName} ${lastName}`,
       html: htmlContent,
     });
 
     return NextResponse.json({
-      message: 'Thank you for your message! We will get back to you soon.',
+      message: SUCCESS_MESSAGE,
       status: 'success',
     });
   } catch (error) {

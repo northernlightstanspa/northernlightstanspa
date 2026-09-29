@@ -1,49 +1,102 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { getMailer, getMailFrom, getMailTo } from '@/lib/mailer';
+import {
+  HONEYPOT_FIELD,
+  cleanText,
+  escapeHtml,
+  findTooLongField,
+  guardFormRequest,
+  isValidEmail,
+} from '@/lib/security';
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+const SUCCESS_MESSAGE = 'Application submitted successfully!';
+const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+
+// Allowed resume formats. The file's first bytes must match the signature, so a
+// renamed executable or script can't be passed off as a document.
+const RESUME_TYPES: Record<string, { contentType: string; signature: number[] }> = {
+  pdf: { contentType: 'application/pdf', signature: [0x25, 0x50, 0x44, 0x46, 0x2d] }, // %PDF-
+  doc: { contentType: 'application/msword', signature: [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1] },
+  docx: {
+    contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    signature: [0x50, 0x4b, 0x03, 0x04], // ZIP container
+  },
+};
+
+function formatDate(value: string): string {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return 'Not provided';
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function parseTanningExperience(value: FormDataEntryValue | null): string[] | null {
+  if (value === null) return [];
+  if (typeof value !== 'string') return null;
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!Array.isArray(parsed) || parsed.length > 20) return null;
+    const items = parsed.map((item) => cleanText(item)).filter(Boolean);
+    return items.every((item) => item.length <= 100) ? items : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
+  const blocked = guardFormRequest(request, {
+    name: 'job-application',
+    maxBodyBytes: MAX_RESUME_BYTES + 256 * 1024,
+    rateLimit: 5,
+    rateLimitWindowMs: 60 * 60 * 1000,
+  });
+  if (blocked) return blocked;
+
   try {
-    const formData = await request.formData();
+    let formData: FormData;
+    try {
+      formData = await request.formData();
+    } catch {
+      return NextResponse.json({ message: 'Invalid request.' }, { status: 400 });
+    }
+
+    // Bots fill in the hidden honeypot field; pretend it worked and drop it.
+    if (cleanText(formData.get(HONEYPOT_FIELD))) {
+      return NextResponse.json({ message: SUCCESS_MESSAGE, status: 'success' });
+    }
+
+    const field = (name: string) => cleanText(formData.get(name));
+    const multilineField = (name: string) => cleanText(formData.get(name), { multiline: true });
 
     // Extract form fields
-    const firstName = (formData.get('firstName') as string || '').trim();
-    const lastName = (formData.get('lastName') as string || '').trim();
-    const email = (formData.get('email') as string || '').trim();
-    const phone = (formData.get('phone') as string || '').trim();
-    const address = (formData.get('address') as string || '').trim();
-    const city = (formData.get('city') as string || '').trim();
-    const state = (formData.get('state') as string || '').trim();
-    const zipCode = (formData.get('zipCode') as string || '').trim();
-    const birthDate = (formData.get('birthDate') as string || '').trim();
-    const position = (formData.get('position') as string || '').trim();
-    const availability = (formData.get('availability') as string || '').trim();
-    const startDate = (formData.get('startDate') as string || '').trim();
-    const desiredPay = (formData.get('desiredPay') as string || '').trim();
-    const experience = (formData.get('experience') as string || '').trim();
-    const education = (formData.get('education') as string || '').trim();
-    const skills = (formData.get('skills') as string || '').trim();
-    const availabilityMonday = (formData.get('availabilityMonday') as string || '').trim();
-    const availabilityTuesday = (formData.get('availabilityTuesday') as string || '').trim();
-    const availabilityWednesday = (formData.get('availabilityWednesday') as string || '').trim();
-    const availabilityThursday = (formData.get('availabilityThursday') as string || '').trim();
-    const availabilityFriday = (formData.get('availabilityFriday') as string || '').trim();
-    const availabilitySaturday = (formData.get('availabilitySaturday') as string || '').trim();
-    const availabilitySunday = (formData.get('availabilitySunday') as string || '').trim();
-    const tanningExperienceJson = formData.get('tanningExperience') as string || '[]';
-    const tanningExperience: string[] = JSON.parse(tanningExperienceJson) || [];
-    const references = (formData.get('references') as string || '').trim();
-    const whyInterested = (formData.get('whyInterested') as string || '').trim();
-    const additionalInfo = (formData.get('additionalInfo') as string || '').trim();
-    const resumeFile = formData.get('resume') as File | null;
+    const firstName = field('firstName');
+    const lastName = field('lastName');
+    const email = field('email');
+    const phone = field('phone');
+    const address = field('address');
+    const city = field('city');
+    const state = field('state');
+    const zipCode = field('zipCode');
+    const birthDate = field('birthDate');
+    const position = field('position');
+    const availability = field('availability');
+    const startDate = field('startDate');
+    const desiredPay = field('desiredPay');
+    const experience = multilineField('experience');
+    const education = multilineField('education');
+    const skills = multilineField('skills');
+    const availabilityMonday = field('availabilityMonday');
+    const availabilityTuesday = field('availabilityTuesday');
+    const availabilityWednesday = field('availabilityWednesday');
+    const availabilityThursday = field('availabilityThursday');
+    const availabilityFriday = field('availabilityFriday');
+    const availabilitySaturday = field('availabilitySaturday');
+    const availabilitySunday = field('availabilitySunday');
+    const tanningExperience = parseTanningExperience(formData.get('tanningExperience'));
+    const references = multilineField('references');
+    const whyInterested = multilineField('whyInterested');
+    const additionalInfo = multilineField('additionalInfo');
+    const resumeValue = formData.get('resume');
+    const resumeFile = resumeValue instanceof File && resumeValue.size > 0 ? resumeValue : null;
 
     // Validate required fields
     if (!firstName || !lastName || !email || !phone || !position || !availability || !experience || !whyInterested) {
@@ -53,13 +106,82 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!tanningExperience) {
+      return NextResponse.json({ message: 'Invalid tanning experience selection.' }, { status: 400 });
+    }
+
+    const tooLongField = findTooLongField([
+      ['First name', firstName, 100],
+      ['Last name', lastName, 100],
+      ['Email', email, 254],
+      ['Phone', phone, 30],
+      ['Address', address, 200],
+      ['City', city, 100],
+      ['State', state, 50],
+      ['Zip code', zipCode, 20],
+      ['Date of birth', birthDate, 30],
+      ['Position', position, 100],
+      ['Availability', availability, 100],
+      ['Start date', startDate, 30],
+      ['Desired pay', desiredPay, 50],
+      ['Work experience', experience, 5000],
+      ['Education', education, 5000],
+      ['Skills', skills, 5000],
+      ['Monday availability', availabilityMonday, 100],
+      ['Tuesday availability', availabilityTuesday, 100],
+      ['Wednesday availability', availabilityWednesday, 100],
+      ['Thursday availability', availabilityThursday, 100],
+      ['Friday availability', availabilityFriday, 100],
+      ['Saturday availability', availabilitySaturday, 100],
+      ['Sunday availability', availabilitySunday, 100],
+      ['References', references, 5000],
+      ['Why interested', whyInterested, 5000],
+      ['Additional information', additionalInfo, 5000],
+    ]);
+    if (tooLongField) {
+      return NextResponse.json(
+        { message: `${tooLongField} is too long.` },
+        { status: 400 }
+      );
+    }
+
     // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         { message: 'Please provide a valid email address.' },
         { status: 400 }
       );
+    }
+
+    // Validate the resume before doing anything else with it
+    const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
+
+    if (resumeFile) {
+      if (resumeFile.size > MAX_RESUME_BYTES) {
+        return NextResponse.json(
+          { message: 'File size should not exceed 5MB.' },
+          { status: 400 }
+        );
+      }
+
+      const extension = resumeFile.name.split('.').pop()?.toLowerCase() || '';
+      const resumeType = RESUME_TYPES[extension];
+      const content = Buffer.from(await resumeFile.arrayBuffer());
+
+      if (!resumeType || !resumeType.signature.every((byte, i) => content[i] === byte)) {
+        return NextResponse.json(
+          { message: 'Only PDF, DOC, and DOCX files are allowed.' },
+          { status: 400 }
+        );
+      }
+
+      // Never trust the uploaded file name; build a safe one instead.
+      const safeName = `${firstName}-${lastName}`.replace(/[^A-Za-z0-9-]+/g, '_').slice(0, 60);
+      attachments.push({
+        filename: `Resume-${safeName}.${extension}`,
+        content,
+        contentType: resumeType.contentType,
+      });
     }
 
     // Build tanning experience HTML
@@ -75,12 +197,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Format dates
-    const birthDateFormatted = birthDate
-      ? new Date(birthDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-      : 'Not provided';
-    const startDateFormatted = startDate
-      ? new Date(startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-      : 'Not provided';
+    const birthDateFormatted = formatDate(birthDate);
+    const startDateFormatted = formatDate(startDate);
 
     // Build full address
     let fullAddress = '';
@@ -325,54 +443,10 @@ export async function POST(request: NextRequest) {
 </body>
 </html>`;
 
-    // Configure nodemailer transporter
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.hostinger.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'noreply@northernlightstanspa.com',
-        pass: '5NgLPLnnXdY0dTkP&',
-      },
-    });
-
-    // Prepare attachments
-    const attachments: { filename: string; content: Buffer; contentType: string }[] = [];
-
-    if (resumeFile && resumeFile.size > 0) {
-      // Validate file type
-      const allowedTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      ];
-      if (!allowedTypes.includes(resumeFile.type)) {
-        return NextResponse.json(
-          { message: 'Only PDF, DOC, and DOCX files are allowed.' },
-          { status: 400 }
-        );
-      }
-
-      // Validate file size (5MB limit)
-      if (resumeFile.size > 5 * 1024 * 1024) {
-        return NextResponse.json(
-          { message: 'File size should not exceed 5MB.' },
-          { status: 400 }
-        );
-      }
-
-      const arrayBuffer = await resumeFile.arrayBuffer();
-      attachments.push({
-        filename: resumeFile.name,
-        content: Buffer.from(arrayBuffer),
-        contentType: resumeFile.type,
-      });
-    }
-
     // Send the email
-    await transporter.sendMail({
-      from: '"Northern Lights Tan & Wellness" <noreply@northernlightstanspa.com>',
-      to: 'teri@mwtan.com',
+    await getMailer().sendMail({
+      from: getMailFrom(),
+      to: getMailTo(),
       replyTo: email,
       subject: `New Job Application: ${position} - ${firstName} ${lastName}`,
       html: htmlContent,
@@ -380,7 +454,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
-      message: 'Application submitted successfully!',
+      message: SUCCESS_MESSAGE,
       status: 'success',
     });
   } catch (error) {

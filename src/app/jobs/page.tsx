@@ -32,6 +32,7 @@ export default function JobsPage() {
     references: "",
     whyInterested: "",
     additionalInfo: "",
+    website: "",
     resume: null as File | null,
   });
 
@@ -99,6 +100,7 @@ export default function JobsPage() {
           references: "",
           whyInterested: "",
           additionalInfo: "",
+          website: "",
           resume: null,
         });
       } else {
@@ -223,6 +225,17 @@ export default function JobsPage() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-8">
+                {/* Honeypot: invisible to visitors, catches spam bots that fill every field */}
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="sr-only"
+                />
                 {/* Personal Information Section */}
                 <div>
                   <h4 className="text-lg font-medium text-gray-800 mb-4 pb-2 border-b border-gray-200">

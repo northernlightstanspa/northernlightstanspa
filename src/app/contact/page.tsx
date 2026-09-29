@@ -9,6 +9,7 @@ export default function ContactPage() {
     lastName: "",
     email: "",
     comment: "",
+    website: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +44,7 @@ export default function ContactPage() {
           lastName: "",
           email: "",
           comment: "",
+          website: "",
         });
       } else {
         setSubmitStatus({
@@ -160,6 +162,17 @@ export default function ContactPage() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot: invisible to visitors, catches spam bots that fill every field */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="sr-only"
+                  />
                   {/* Name Fields */}
                   <div>
                     <label className="block text-gray-800 text-sm font-medium mb-2">
