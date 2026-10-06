@@ -14,8 +14,8 @@ export default function HoursAndNews() {
               <p>Tel: 262-387-1485</p>
               <div className="mt-4">
                 <p className="font-medium underline">Hours:</p>
-                <p>Monday – Thursday 10:00am – 7:00pm</p>
-                <p>Friday 10:00am – 6:00pm</p>
+                <p>Monday – Thursday 9:00am – 7:00pm</p>
+                <p>Friday 9:00am – 6:00pm</p>
                 <p>Saturday 9:00am – 3:00pm</p>
                 <p>Sunday 10:00am – 3:00pm</p>
               </div>

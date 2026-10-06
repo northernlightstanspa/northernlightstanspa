@@ -86,8 +86,8 @@ export default function Footer() {
               Hours
             </h4>
             <ul className="text-sm space-y-1">
-              <li>Mon – Thu: 10am – 7pm</li>
-              <li>Friday: 10am – 6pm</li>
+              <li>Mon – Thu: 9am – 7pm</li>
+              <li>Friday: 9am – 6pm</li>
               <li>Saturday: 9am – 3pm</li>
               <li>Sunday: 10am – 3pm</li>
             </ul>

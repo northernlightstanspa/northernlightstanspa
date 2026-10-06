@@ -72,8 +72,8 @@ export default function LocationsPage() {
 
             {/* Hours */}
             <div className="space-y-1 text-gray-700 text-sm">
-              <p>Monday – Thursday 10:00am – 7:00pm</p>
-              <p>Friday 10:00am – 6:00pm</p>
+              <p>Monday – Thursday 9:00am – 7:00pm</p>
+              <p>Friday 9:00am – 6:00pm</p>
               <p>Saturday 9:00am – 3:00pm</p>
               <p>Sunday 10:00am – 3:00pm</p>
             </div>

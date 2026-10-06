@@ -27,25 +27,25 @@ export default function PromotionsPage() {
           {/* Decorative background bubbles */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/40 rounded-full -mr-32 -mt-32 border-4 border-blue-300/30 -z-10"></div>
           <div className="absolute top-10 left-10 w-24 h-24 bg-cyan-200/30 rounded-full border-2 border-cyan-300/40 -z-10"></div>
-         <div className="absolute top-3/4 right-1/4 w-52 h-52 bg-sky-200/35 rounded-full border-3 border-sky-300/40 -z-10"></div>
+          <div className="absolute top-3/4 right-1/4 w-52 h-52 bg-sky-200/35 rounded-full border-3 border-sky-300/40 -z-10"></div>
           <div className="absolute bottom-1/3 right-1/4 w-44 h-44 bg-blue-300/30 rounded-full border-2 border-blue-400/40 -z-10"></div>
           <div className="absolute bottom-1/4 left-10 w-56 h-56 bg-cyan-100/40 rounded-full border-4 border-cyan-200/30 -z-10"></div>
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-200/40 rounded-full -ml-32 -mb-32 border-4 border-blue-300/30 -z-10"></div>
           <div className="absolute bottom-0 right-0 w-72 h-72 bg-sky-100/40 rounded-full -mr-24 -mb-24 border-4 border-sky-200/30 -z-10"></div>
           <div className="absolute bottom-10 left-1/4 w-40 h-40 bg-cyan-300/35 rounded-full border-2 border-cyan-400/40 -z-10"></div>
-          
+
           <div className="max-w-4xl mx-auto px-4">
             {/* January Specials Card */}
             <div className="relative rounded-lg overflow-hidden shadow-xl mb-12">
               <Image
-                src="/img/promotion/september.png"
-                alt="september Specials"
+                src="/img/promotion/october.png"
+                alt="october Specials"
                 width={800}
                 height={800}
                 className="w-full h-auto"
               />
             </div>
-          
+
 
             {/* Placeholder for future promotions - Update monthly */}
             <div className="text-center py-8">
@@ -60,12 +60,12 @@ export default function PromotionsPage() {
                 </h3>
                 <p className="text-white text-lg mb-2">Sign up for our text club to stay updated with exclusive deals!</p>
                 <p className="text-white text-xl font-bold mb-6">TEXT northernlightstan TO 33916</p>
-                
+
                 {/* Social Media Links */}
                 <div className="flex items-center justify-center gap-6 mt-6">
-                  <a 
-                    href="https://www.facebook.com/p/Northern-Lights-Tan-Spa-Inc-100063708154086/" 
-                    target="_blank" 
+                  <a
+                    href="https://www.facebook.com/p/Northern-Lights-Tan-Spa-Inc-100063708154086/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="transform hover:scale-110 transition-transform"
                     aria-label="Visit our Facebook page"
@@ -74,10 +74,10 @@ export default function PromotionsPage() {
                       <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
                     </svg>
                   </a>
-                  
-                  <a 
-                    href="https://www.instagram.com/northern_lights_tan/" 
-                    target="_blank" 
+
+                  <a
+                    href="https://www.instagram.com/northern_lights_tan/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="transform hover:scale-110 transition-transform"
                     aria-label="Visit our Instagram page"
