@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { LuChevronLeft, LuChevronRight, LuCircleCheck, LuTimer } from "react-icons/lu";
+import Bubbles from "@/components/Bubbles";
+import PageHero from "@/components/PageHero";
 
 type TanningBed = {
   name: string;
@@ -10,15 +11,22 @@ type TanningBed = {
   images?: string[];
   features?: string[];
   maxTime?: string;
-  beds?: TanningBed[];
   description?: string;
 };
 
-const tanningBeds: TanningBed[] = [
+type Tier = {
+  name: string;
+  /** Matches the tier colors on the Membership Plans cards. */
+  color: string;
+  beds: TanningBed[];
+};
+
+const tanningBeds: Tier[] = [
   {
     name: "Platinum",
+    color: "from-purple-600 to-indigo-600",
     beds: [
-      
+
       {
         name: "KBL P9S",
         image: "/img/uv-tanning/KBL-P9S/img.JPG",
@@ -48,6 +56,7 @@ const tanningBeds: TanningBed[] = [
   },
   {
     name: "Titanium",
+    color: "from-gray-500 to-gray-700",
     beds: [
       {
         name: "Sunscape 755",
@@ -92,6 +101,7 @@ const tanningBeds: TanningBed[] = [
   },
   {
     name: "Gold",
+    color: "from-yellow-500 to-amber-600",
     beds: [
       {
         name: "Ovation 5400",
@@ -121,6 +131,7 @@ const tanningBeds: TanningBed[] = [
   },
   {
     name: "Silver",
+    color: "from-slate-400 to-slate-600",
     beds: [
       {
         name: "Mohave 3200",
@@ -155,191 +166,154 @@ export default function UVTanningPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative h-32 md:h-40">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/img/home_hero_bg.jpg')" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/70 to-cyan-400/50"></div>
-          </div>
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-semibold text-white drop-shadow-lg" style={{ fontFamily: "Bellefair, serif" }}>
-              UV Tanning
-            </h1>
-          </div>
-        </section>
+    <>
+      <PageHero title="UV Tanning" />
 
-        {/* Tanning Beds Section */}
-        <section className="py-12 relative overflow-hidden">
-          {/* Decorative background bubbles */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/40 rounded-full -mr-32 -mt-32 border-4 border-blue-300/30 -z-10"></div>
-          <div className="absolute top-10 left-10 w-24 h-24 bg-cyan-200/30 rounded-full border-2 border-cyan-300/40 -z-10"></div>
-          <div className="absolute top-1/4 left-0 w-64 h-64 bg-teal-100/40 rounded-full -ml-20 border-4 border-teal-200/30 -z-10"></div>
-          <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-sky-200/30 rounded-full border-2 border-sky-300/40 -z-10"></div>
-          <div className="absolute top-1/2 left-1/4 w-28 h-28 bg-cyan-300/35 rounded-full border-2 border-cyan-400/40 -z-10"></div>
-          <div className="absolute top-1/2 right-10 w-48 h-48 bg-blue-100/35 rounded-full border-3 border-blue-200/40 -z-10"></div>
-          <div className="absolute top-2/3 left-1/3 w-36 h-36 bg-teal-200/40 rounded-full border-2 border-teal-300/40 -z-10"></div>
-          <div className="absolute top-3/4 right-1/4 w-52 h-52 bg-sky-200/35 rounded-full border-3 border-sky-300/40 -z-10"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-44 h-44 bg-blue-300/30 rounded-full border-2 border-blue-400/40 -z-10"></div>
-          <div className="absolute bottom-1/4 left-10 w-56 h-56 bg-cyan-100/40 rounded-full border-4 border-cyan-200/30 -z-10"></div>
-          <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-teal-200/30 rounded-full border-2 border-teal-300/40 -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-200/40 rounded-full -ml-32 -mb-32 border-4 border-blue-300/30 -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-sky-100/40 rounded-full -mr-24 -mb-24 border-4 border-sky-200/30 -z-10"></div>
-          <div className="absolute bottom-10 left-1/4 w-40 h-40 bg-cyan-300/35 rounded-full border-2 border-cyan-400/40 -z-10"></div>
-          
-          <div className="max-w-4xl mx-auto px-4 relative z-10">
-            {tanningBeds.map((bed, index) => (
-              <div key={index} className="mb-8 p-6 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  {/* Image */}
-                  {!bed.beds && bed.image && (
-                    <div className="w-full md:w-2/5 flex-shrink-0">
-                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
-                        <Image
-                          src={bed.image}
-                          alt={bed.name}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                    </div>
-                  )}
+      {/* Tanning Beds Section */}
+      <section className="section">
+        <Bubbles />
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    <h2 className="text-4xl font-bold text-black mb-4" style={{ fontFamily: "Bellefair, serif" }}>
-                      {bed.name}
-                    </h2>
-                    
-                    {bed.features && (
-                      <ul className="space-y-2 text-sm text-gray-600">
-                        {bed.maxTime && (
-                          <li className="flex items-start gap-2">
-                            <span className="text-orange-500 mt-1">•</span>
-                            <span className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full shadow-lg font-semibold text-sm">{bed.maxTime}</span>
-                          </li>
-                        )}
-                        {bed.features.map((feature, fIndex) => (
-                          <li key={fIndex} className="flex items-start gap-2">
-                            <span className="text-orange-500 mt-1">•</span>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+        <div className="container-page">
+          {/* Tier quick links */}
+          <nav aria-label="Tanning levels" className="reveal mb-14 flex flex-wrap justify-center gap-3">
+            {tanningBeds.map((tier) => (
+              <a
+                key={tier.name}
+                href={`#${tier.name.toLowerCase()}`}
+                className="group inline-flex items-center gap-2.5 rounded-full bg-white/80 py-2 pr-5 pl-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md hover:ring-orange-300"
+              >
+                <span className={`h-7 w-7 rounded-full bg-gradient-to-br ${tier.color} shadow-inner`} />
+                {tier.name}
+                <span className="text-xs font-normal text-slate-400">
+                  {tier.beds.length} {tier.beds.length === 1 ? "bed" : "beds"}
+                </span>
+              </a>
+            ))}
+          </nav>
 
-                    {bed.beds && (
-                      <div className="space-y-6">
-                        {bed.beds.map((subBed, bIndex) => {
-                          const bedKey = `${bed.name}-${subBed.name}`;
-                          const images: string[] = subBed.images || (subBed.image ? [subBed.image] : []);
-                          const currentIndex = currentImageIndex[bedKey] || 0;
-                          
-                          return (
-                          <div key={bIndex} className="flex flex-col md:flex-row gap-6 items-start p-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-md">
-                            {/* Sub-bed Image */}
-                            <div className="w-full md:w-1/2 flex-shrink-0">
-                              <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg group">
-                                <Image
-                                  src={images[currentIndex]}
-                                  alt={`${subBed.name} - Image ${currentIndex + 1}`}
-                                  fill
-                                  className="object-contain"
-                                />
-                                {images.length > 1 && (
-                                  <>
-                                    {/* Previous Button */}
+          <div className="space-y-20 md:space-y-24">
+            {tanningBeds.map((tier) => (
+              <div key={tier.name} id={tier.name.toLowerCase()} className="scroll-mt-28">
+                {/* Tier heading */}
+                <div className="reveal mb-8 flex items-center gap-4">
+                  <span className={`h-12 w-1.5 rounded-full bg-gradient-to-b ${tier.color}`} />
+                  <h2 className="font-serif text-4xl text-black md:text-5xl">{tier.name}</h2>
+                  <div className="ml-2 h-px flex-1 bg-gradient-to-r from-slate-300 to-transparent" />
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {tier.beds.map((subBed, bIndex) => {
+                    const bedKey = `${tier.name}-${subBed.name}`;
+                    const images: string[] = subBed.images || (subBed.image ? [subBed.image] : []);
+                    const currentIndex = currentImageIndex[bedKey] || 0;
+                    // A lone last card spans the row and lays out horizontally.
+                    const wide = tier.beds.length % 2 === 1 && bIndex === tier.beds.length - 1;
+
+                    return (
+                      <article
+                        key={bIndex}
+                        className={`reveal card card-hover flex flex-col overflow-hidden ${
+                          wide ? "md:col-span-2 md:flex-row" : ""
+                        }`}
+                      >
+                        {/* Sub-bed Image */}
+                        <div className={`flex-shrink-0 p-2 ${wide ? "md:w-1/2" : ""}`}>
+                          <div className="group relative aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-gradient-to-b from-white to-slate-100">
+                            <Image
+                              src={images[currentIndex]}
+                              alt={`${subBed.name} - Image ${currentIndex + 1}`}
+                              fill
+                              sizes="(min-width: 768px) 40vw, 100vw"
+                              className="object-contain p-3 transition-transform duration-700 group-hover:scale-[1.03]"
+                            />
+                            <span
+                              className={`absolute top-3 left-3 rounded-full bg-gradient-to-r ${tier.color} px-3 py-1 text-[11px] font-bold tracking-widest text-white uppercase shadow-md`}
+                            >
+                              {tier.name}
+                            </span>
+                            {images.length > 1 && (
+                              <>
+                                {/* Previous Button */}
+                                <button
+                                  onClick={() => prevImage(bedKey, images.length)}
+                                  className="absolute top-1/2 left-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 md:opacity-0 md:group-hover:opacity-100"
+                                  aria-label="Previous image"
+                                >
+                                  <LuChevronLeft className="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                {/* Next Button */}
+                                <button
+                                  onClick={() => nextImage(bedKey, images.length)}
+                                  className="absolute top-1/2 right-3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 md:opacity-0 md:group-hover:opacity-100"
+                                  aria-label="Next image"
+                                >
+                                  <LuChevronRight className="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                {/* Dots Indicator */}
+                                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2 rounded-full bg-black/30 px-2.5 py-1.5 backdrop-blur">
+                                  {images.map((_: string, idx: number) => (
                                     <button
-                                      onClick={() => prevImage(bedKey, images.length)}
-                                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
-                                      aria-label="Previous image"
-                                    >
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                                      </svg>
-                                    </button>
-                                    {/* Next Button */}
-                                    <button
-                                      onClick={() => nextImage(bedKey, images.length)}
-                                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-20"
-                                      aria-label="Next image"
-                                    >
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                      </svg>
-                                    </button>
-                                    {/* Dots Indicator */}
-                                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                                      {images.map((_: string, idx: number) => (
-                                        <button
-                                          key={idx}
-                                          onClick={() => setCurrentImageIndex(prev => ({ ...prev, [bedKey]: idx }))}
-                                          className={`w-2 h-2 rounded-full transition-all ${
-                                            idx === currentIndex
-                                              ? 'bg-white w-6'
-                                              : 'bg-white/50 hover:bg-white/75'
-                                          }`}
-                                          aria-label={`Go to image ${idx + 1}`}
-                                        />
-                                      ))}
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                            {/* Sub-bed Content */}
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-gray-700 mb-3 text-lg underline">
-                                {subBed.name}
-                              </h3>
-                              {subBed.description && (
-                                <div className="mb-4 text-sm text-gray-600">
-                                  <p className="mb-2">
-                                    {expandedDescriptions[bedKey] ? subBed.description : subBed.description.substring(0, 150) + "..."}
-                                  </p>
-                                  <button
-                                    onClick={() => setExpandedDescriptions(prev => ({ ...prev, [bedKey]: !prev[bedKey] }))}
-                                    className="text-orange-500 hover:text-orange-600 font-semibold text-xs"
-                                  >
-                                    {expandedDescriptions[bedKey] ? "See Less" : "See More"}
-                                  </button>
+                                      key={idx}
+                                      onClick={() => setCurrentImageIndex(prev => ({ ...prev, [bedKey]: idx }))}
+                                      className={`h-2 rounded-full transition-all ${
+                                        idx === currentIndex
+                                          ? 'w-6 bg-white'
+                                          : 'w-2 bg-white/50 hover:bg-white/75'
+                                      }`}
+                                      aria-label={`Go to image ${idx + 1}`}
+                                    />
+                                  ))}
                                 </div>
-                              )}
-                              {subBed.features && (
-                              <ul className="space-y-2 text-sm text-gray-600">
-                                {subBed.maxTime && (
-                                  <li className="flex items-start gap-2">
-                                    <span className="text-orange-500 mt-1">•</span>
-                                    <span className="inline-block bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-2 rounded-full shadow-lg font-semibold text-sm">{subBed.maxTime}</span>
-                                  </li>
-                                )}
-                                {subBed.features.map((feature, fIndex) => (
-                                  <li key={fIndex} className="flex items-start gap-2">
-                                    <span className="text-orange-500 mt-1">•</span>
-                                    <span>{feature}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                              )}
-                            </div>
+                              </>
+                            )}
                           </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
+                        </div>
+
+                        {/* Sub-bed Content */}
+                        <div className={`flex flex-1 flex-col p-6 sm:p-7 ${wide ? "md:justify-center" : ""}`}>
+                          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                            <h3 className="text-2xl font-semibold text-slate-800">{subBed.name}</h3>
+                            {subBed.maxTime && (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-1.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/25">
+                                <LuTimer className="h-4 w-4" aria-hidden="true" />
+                                {subBed.maxTime}
+                              </span>
+                            )}
+                          </div>
+                          {subBed.description && (
+                            <div className="mb-5 text-sm leading-relaxed text-slate-600">
+                              <p className="mb-2 whitespace-pre-line">
+                                {expandedDescriptions[bedKey] ? subBed.description : subBed.description.substring(0, 150) + "..."}
+                              </p>
+                              <button
+                                onClick={() => setExpandedDescriptions(prev => ({ ...prev, [bedKey]: !prev[bedKey] }))}
+                                className="text-xs font-semibold text-orange-500 hover:text-orange-600"
+                                aria-expanded={!!expandedDescriptions[bedKey]}
+                              >
+                                {expandedDescriptions[bedKey] ? "See Less" : "See More"}
+                              </button>
+                            </div>
+                          )}
+                          {subBed.features && (
+                            <ul className={`grid gap-2.5 text-sm text-slate-600 ${wide ? "" : "sm:grid-cols-2"}`}>
+                              {subBed.features.map((feature, fIndex) => (
+                                <li key={fIndex} className="flex items-start gap-2">
+                                  <LuCircleCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-500" aria-hidden="true" />
+                                  <span>{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
               </div>
             ))}
           </div>
-          
-        </section>
-      </main>
-      <Footer />
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

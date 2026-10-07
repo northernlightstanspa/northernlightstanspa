@@ -1,7 +1,7 @@
-"use client";
 import Image from "next/image";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { LuCircleCheck, LuDroplets, LuTag } from "react-icons/lu";
+import Bubbles from "@/components/Bubbles";
+import PageHero from "@/components/PageHero";
 
 const versaSpaFeatures = [
   "Heated dry passes between each spray pass so you will be dry when leaving the booth",
@@ -41,207 +41,190 @@ const wellfitProducts = [
   },
 ];
 
+const productThemes = [
+  { card: "from-blue-50 to-cyan-50 ring-blue-200/60", title: "text-blue-800", dot: "bg-blue-500", bar: "from-blue-500 to-cyan-400" },
+  { card: "from-purple-50 to-pink-50 ring-purple-200/60", title: "text-purple-800", dot: "bg-purple-500", bar: "from-purple-500 to-pink-400" },
+  { card: "from-green-50 to-emerald-50 ring-green-200/60", title: "text-green-800", dot: "bg-green-500", bar: "from-green-500 to-emerald-400" },
+];
+
+const addOns = [
+  { label: "Moisturizer Only", price: "$6" },
+  { label: "Legs Only", price: "$10" },
+  { label: "Face Only", price: "$10" },
+  { label: "Add Legs to a Session", price: "$5" },
+];
+
 export default function UVFreeVersaPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative h-36 md:h-44">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/img/home_hero_bg.jpg')" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/70 to-cyan-400/50"></div>
-          </div>
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-2xl md:text-4xl font-bold text-white drop-shadow-lg" style={{ fontFamily: "'Bellefair', serif" }}>
-                UV-Free Versa Pro
-              </h1>
-              <p className="text-xl md:text-2xl font-bold text-white drop-shadow-lg" style={{ fontFamily: "'Bellefair', serif" }}>&amp;</p>
-              <p className="text-2xl md:text-4xl font-bold text-white drop-shadow-lg" style={{ fontFamily: "'Bellefair', serif" }}>
-                Versa Pro Wellfit
-              </p>
-            </div>
-          </div>
-        </section>
+    <>
+      <PageHero
+        title="UV-Free Versa Pro"
+        crumb="UV Free Spray"
+        subtitle={
+          <>
+            <p className="text-xl md:text-2xl">&amp;</p>
+            <p>Versa Pro Wellfit</p>
+          </>
+        }
+      />
 
-        {/* Versa Spa Pro Section */}
-        <section className="py-12 relative overflow-hidden">
-          {/* Decorative background bubbles */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200/40 rounded-full -mr-32 -mt-32 border-4 border-blue-300/30 -z-10"></div>
-          <div className="absolute top-10 left-10 w-24 h-24 bg-cyan-200/30 rounded-full border-2 border-cyan-300/40 -z-10"></div>
-          <div className="absolute top-1/4 left-0 w-64 h-64 bg-teal-100/40 rounded-full -ml-20 border-4 border-teal-200/30 -z-10"></div>
-          <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-sky-200/30 rounded-full border-2 border-sky-300/40 -z-10"></div>
-          <div className="absolute top-1/2 left-1/4 w-28 h-28 bg-cyan-300/35 rounded-full border-2 border-cyan-400/40 -z-10"></div>
-          <div className="absolute top-1/2 right-10 w-48 h-48 bg-blue-100/35 rounded-full border-3 border-blue-200/40 -z-10"></div>
-          <div className="absolute top-2/3 left-1/3 w-36 h-36 bg-teal-200/40 rounded-full border-2 border-teal-300/40 -z-10"></div>
-          <div className="absolute top-3/4 right-1/4 w-52 h-52 bg-sky-200/35 rounded-full border-3 border-sky-300/40 -z-10"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-44 h-44 bg-blue-300/30 rounded-full border-2 border-blue-400/40 -z-10"></div>
-          <div className="absolute bottom-1/4 left-10 w-56 h-56 bg-cyan-100/40 rounded-full border-4 border-cyan-200/30 -z-10"></div>
-          <div className="absolute bottom-20 right-1/3 w-32 h-32 bg-teal-200/30 rounded-full border-2 border-teal-300/40 -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-200/40 rounded-full -ml-32 -mb-32 border-4 border-blue-300/30 -z-10"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-sky-100/40 rounded-full -mr-24 -mb-24 border-4 border-sky-200/30 -z-10"></div>
-          <div className="absolute bottom-10 left-1/4 w-40 h-40 bg-cyan-300/35 rounded-full border-2 border-cyan-400/40 -z-10"></div>
-          
-          <div className="max-w-4xl mx-auto px-4">
-            {/* Logo */}
-            <div className="text-center mb-8">
-              <div className="max-w-lg mx-auto">
-                <Image
-                  src="/img/uv-free-versa/versaspapro-logo.jpeg"
-                  alt="VersaSpa Pro logo"
-                  width={600}
-                  height={150}
-                  className="w-full h-auto"
-                />
-              </div>
-              {/* Tagline */}
-              <p className="mt-6 text-lg md:text-xl text-gray-700 italic">
-                Step into a private, automated spray tan booth for a gorgeous glow in 5 minutes.
-              </p>
-            </div>
+      {/* Versa Spa Pro Section */}
+      <section className="section">
+        <Bubbles />
 
+        <div className="container-page">
+          {/* Logo */}
+          <div className="reveal mb-12 text-center">
+            <div className="mx-auto max-w-md overflow-hidden rounded-3xl bg-white p-4 shadow-lg ring-1 ring-slate-900/5">
+              <Image
+                src="/img/uv-free-versa/versaspapro-logo.jpeg"
+                alt="VersaSpa Pro logo"
+                width={694}
+                height={286}
+                className="h-auto w-full"
+              />
+            </div>
+            {/* Tagline */}
+            <p className="mx-auto mt-8 max-w-2xl font-serif text-2xl text-slate-700 italic md:text-3xl">
+              Step into a private, automated spray tan booth for a gorgeous glow in 5 minutes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
             {/* Featured Video with Bubble */}
-            <div className="relative mb-12">
-              <div className="relative w-full max-w-3xl mx-auto">
-                <div className="bg-gradient-to-br from-orange-100 via-white to-cyan-100 p-6 md:p-8 rounded-3xl shadow-xl border border-orange-200/50">
-                  <div className="aspect-[16/9] rounded-2xl overflow-hidden shadow-lg">
-                    <video
-                      controls
-                      className="w-full h-full object-cover"
-                      poster="/img/uv-free-versa/versaspa-model.jpeg"
-                    >
-                      <source src="/img/uv-free-versa/versaspa-pro-consumer-video.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
+            <div className="reveal lg:col-span-7">
+              <div className="media-frame">
+                <div className="aspect-[16/9] overflow-hidden rounded-[1.6rem] bg-black">
+                  <video
+                    controls
+                    preload="metadata"
+                    className="h-full w-full object-cover"
+                    poster="/img/uv-free-versa/versaspa-model.jpeg"
+                  >
+                    <source src="/img/uv-free-versa/versaspa-pro-consumer-video.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               </div>
             </div>
 
-            {/* Features Bullet List */}
-            <div className="max-w-2xl mx-auto mb-12">
-              <ul className="space-y-3">
-                {versaSpaFeatures.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-2 h-2 mt-2 bg-orange-500 rounded-full"></span>
-                    <span className="text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="space-y-6 lg:col-span-5">
+              {/* Features Bullet List */}
+              <div className="reveal card p-6 sm:p-7">
+                <ul className="space-y-3.5">
+                  {versaSpaFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <LuCircleCheck className="mt-0.5 h-5 w-5 flex-shrink-0 text-orange-500" aria-hidden="true" />
+                      <span className="text-slate-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Additional Pricing */}
-            <div className="max-w-md mx-auto mb-12">
-              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                <div className="space-y-2 text-gray-700">
-                  <p className="flex justify-between"><span>Moisturizer Only</span> <span className="font-semibold">$6</span></p>
-                  <p className="flex justify-between"><span>Legs Only</span> <span className="font-semibold">$10</span></p>
-                  <p className="flex justify-between"><span>Face Only</span> <span className="font-semibold">$10</span></p>
-                  <p className="flex justify-between"><span>Add Legs to a Session</span> <span className="font-semibold">$5</span></p>
+              {/* Additional Pricing */}
+              <div className="reveal overflow-hidden rounded-3xl bg-slate-950 p-6 text-slate-300 shadow-xl sm:p-7">
+                <p className="mb-4 flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-orange-300 uppercase">
+                  <LuTag className="h-4 w-4" aria-hidden="true" />
+                  Add-ons
+                </p>
+                <div className="space-y-3">
+                  {addOns.map((item) => (
+                    <p key={item.label} className="flex items-center justify-between gap-4 border-b border-white/10 pb-3 last:border-0 last:pb-0">
+                      <span>{item.label}</span>{" "}
+                      <span className="rounded-full bg-orange-500/15 px-3 py-0.5 font-semibold text-orange-300">{item.price}</span>
+                    </p>
+                  ))}
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Divider */}
-            <hr className="my-12 border-gray-200" />
+          {/* Divider */}
+          <div className="my-20 flex items-center gap-4 md:my-24" aria-hidden="true">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-300" />
+            <LuDroplets className="h-6 w-6 text-cyan-500" />
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-300" />
+          </div>
 
-            {/* Wellfit Section */}
-            <div className="text-center ">
-              {/* Wellfit Logo */}
-              <div className="max-w-md mx-auto ">
-                <Image
-                  src="/img/uv-free-versa/wellfit-logo-black.png"
-                  alt="VersaSpa Wellfit Logo"
-                  width={600}
-                  height={100}
-                  className="w-full h-auto"
-                />
-              </div>
-              {/* Wellfit Main Image */}
-              <div className="max-w-3xl mx-auto mt-8">
+          {/* Wellfit Section */}
+          <div className="reveal text-center">
+            {/* Wellfit Logo */}
+            <div className="mx-auto max-w-sm">
+              <Image
+                src="/img/uv-free-versa/wellfit-logo-black.png"
+                alt="VersaSpa Wellfit Logo"
+                width={596}
+                height={199}
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
+            {/* Wellfit Main Image */}
+            <div className="reveal lg:sticky lg:top-28 lg:col-span-5">
+              <div className="mx-auto max-w-md overflow-hidden rounded-[2rem] bg-white p-2 shadow-2xl ring-1 ring-slate-900/5">
                 <Image
                   src="/img/wellfit/wellfitimage.png"
                   alt="VersaSpa Wellfit"
-                  width={1200}
-                  height={600}
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  width={1440}
+                  height={1920}
+                  sizes="(min-width: 1024px) 28rem, 100vw"
+                  className="h-auto w-full rounded-[1.6rem]"
                 />
               </div>
             </div>
 
             {/* WellFit Product Bubbles */}
-            <div className="max-w-3xl mx-auto mt-10 mb-12 space-y-6">
-              {wellfitProducts.map((product, index) => (
-                <div 
-                  key={index} 
-                  className={`p-6 rounded-2xl shadow-lg border ${
-                    index === 0 
-                      ? 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200/50' 
-                      : index === 1 
-                        ? 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200/50'
-                        : 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200/50'
-                  }`}
-                >
-                  <h4 className={`font-bold text-xl mb-3 ${
-                    index === 0 
-                      ? 'text-blue-800' 
-                      : index === 1 
-                        ? 'text-purple-800'
-                        : 'text-green-800'
-                  }`}>
-                    {product.name}
-                  </h4>
-                  <p className="text-gray-700 mb-4">{product.description}</p>
-                  <div>
-                    <p className="font-semibold text-gray-800 mb-2">Benefits:</p>
-                    <ul className="space-y-2">
-                      {product.benefits.map((benefit, benefitIndex) => (
-                        <li key={benefitIndex} className="flex items-start gap-2">
-                          <span className={`flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full ${
-                            index === 0 
-                              ? 'bg-blue-500' 
-                              : index === 1 
-                                ? 'bg-purple-500'
-                                : 'bg-green-500'
-                          }`}></span>
-                          <span className="text-gray-600 text-sm">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
+            <div className="space-y-6 lg:col-span-7">
+              {wellfitProducts.map((product, index) => {
+                const theme = productThemes[index];
+                return (
+                  <div
+                    key={index}
+                    className={`reveal relative overflow-hidden rounded-3xl bg-gradient-to-br p-6 shadow-lg ring-1 sm:p-8 ${theme.card}`}
+                  >
+                    <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${theme.bar}`} />
+                    <h4 className={`mb-3 text-2xl font-bold ${theme.title}`}>{product.name}</h4>
+                    <p className="mb-5 text-slate-700">{product.description}</p>
+                    <div>
+                      <p className="mb-3 font-semibold text-slate-800">Benefits:</p>
+                      <ul className="space-y-2.5">
+                        {product.benefits.map((benefit, benefitIndex) => (
+                          <li key={benefitIndex} className="flex items-start gap-3">
+                            <span className={`mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full ${theme.dot}`}></span>
+                            <span className="text-sm text-slate-600">{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
+          </div>
 
-            {/* Video Section */}
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
-                <div className="p-2">
-                 
-                  <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden">
-                    <iframe 
-                      width="100%" 
-                      height="100%" 
-                      src="https://www.youtube.com/embed/mk_5do8_yEU?si=_3htS4MSUR3env-O" 
-                      title="YouTube video player" 
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                      referrerPolicy="strict-origin-when-cross-origin" 
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full"
-                    ></iframe>
-                  </div>
-                
-                </div>
+          {/* Video Section */}
+          <div className="reveal mx-auto mt-16 max-w-3xl">
+            <div className="media-frame">
+              <div className="relative aspect-video overflow-hidden rounded-[1.6rem] bg-slate-900">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/mk_5do8_yEU?si=_3htS4MSUR3env-O"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full"
+                ></iframe>
               </div>
             </div>
           </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
+        </div>
+      </section>
+    </>
   );
 }

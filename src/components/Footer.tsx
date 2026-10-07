@@ -1,5 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { LuArrowRight, LuClock, LuMapPin, LuPhone } from "react-icons/lu";
+import HoursList from "@/components/HoursList";
+import SocialLinks from "@/components/SocialLinks";
+import { ADDRESS, DIRECTIONS_URL, PHONE } from "@/lib/site";
+
 const quickLinks = [
   { name: "UV Tanning", href: "/uv-tanning" },
   { name: "UV Free Spray", href: "/uv-free-spray-tanning" },
@@ -16,117 +21,133 @@ const wellnessLinks = [
   { name: "BleachBright", href: "/bleachbright" },
 ];
 
+function FooterLinks({ title, links }: { title: string; links: { name: string; href: string }[] }) {
+  return (
+    <div>
+      <h4 className="mb-5 text-xs font-semibold tracking-[0.2em] text-white uppercase">{title}</h4>
+      <ul className="space-y-3 text-sm">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="group inline-flex items-center gap-2 text-slate-400 transition-colors hover:text-orange-300"
+            >
+              <span className="h-px w-3 bg-slate-600 transition-all group-hover:w-5 group-hover:bg-orange-400" />
+              {link.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="relative isolate mt-auto overflow-hidden bg-slate-950 text-slate-300">
+      {/* Aurora glows */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-32 left-1/4 h-80 w-80 rounded-full bg-orange-500/15 blur-3xl" />
+        <div className="absolute -bottom-40 right-[20%] h-96 w-96 rounded-full bg-cyan-500/10 blur-3xl" />
+      </div>
+      <div className="h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
+
+      {/* Walk-in banner */}
+      <div className="container-page pt-14">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 via-amber-500 to-cyan-500 p-px">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-[calc(1.5rem-1px)] bg-slate-950/85 px-6 py-8 backdrop-blur sm:px-10 md:flex-row md:items-center">
+            <div>
+              <p className="font-serif text-3xl text-white sm:text-4xl">Convenient Walk-In Spa</p>
+              <p className="mt-2 text-slate-400">No Appointments Necessary</p>
+            </div>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <a href={PHONE.href} className="btn btn-primary">
+                <LuPhone className="h-4 w-4" aria-hidden="true" />
+                Tel: {PHONE.display}
+              </a>
+              <Link href="/pricing" className="btn btn-glass">
+                Pricing
+                <LuArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Footer */}
-      <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div className="container-page py-14">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand & Contact */}
-          <div>
-           <Link 
-            href="/" 
-            className="flex-shrink-0 group relative " 
-          >
-            <Image
-              src="/img/logo.png"
-              alt="Northern Lights Tan Spa"
-              width={180}
-              height={60}
-              quality={100}
-              className="h-15 w-auto object-contain relative"
-            />
-          </Link>
-            <address className="not-italic mt-5 text-sm space-y-1 leading-relaxed">
-              <p>W51N731 Keup Rd</p>
-              <p>Cedarburg, WI</p>
-              <p className="pt-1">
-                <a href="tel:2623871485" className="hover:text-orange-400 transition-colors">
-                  Tel: 262-387-1485
-                </a>
-              </p>
+          <div className="lg:col-span-3">
+            <Link href="/" className="group relative inline-block flex-shrink-0">
+              <Image
+                src="/img/logo.png"
+                alt="Northern Lights Tan Spa"
+                width={180}
+                height={60}
+                quality={100}
+                className="relative h-15 w-auto object-contain"
+              />
+            </Link>
+            <address className="mt-6 space-y-3 text-sm not-italic">
+              <a
+                href={DIRECTIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-3 text-slate-400 transition-colors hover:text-orange-300"
+              >
+                <LuMapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-400" aria-hidden="true" />
+                <span>
+                  {ADDRESS.street}
+                  <br />
+                  {ADDRESS.city}
+                </span>
+              </a>
+              <a
+                href={PHONE.href}
+                className="flex items-center gap-3 text-slate-400 transition-colors hover:text-orange-300"
+              >
+                <LuPhone className="h-4 w-4 flex-shrink-0 text-orange-400" aria-hidden="true" />
+                Tel: {PHONE.display}
+              </a>
             </address>
+            <SocialLinks className="mt-6 flex items-center gap-3" />
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
-              Services
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-orange-400 transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="lg:col-span-2">
+            <FooterLinks title="Services" links={quickLinks} />
           </div>
 
-          {/* Wellness Links */}
-          <div>
-            <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
-              Wellness
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {wellnessLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-orange-400 transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="lg:col-span-2">
+            <FooterLinks title="Wellness" links={wellnessLinks} />
           </div>
 
           {/* Hours */}
-          <div>
-            <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-3">
+          <div className="sm:col-span-2 lg:col-span-5">
+            <h4 className="mb-5 flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-white uppercase">
+              <LuClock className="h-4 w-4 text-orange-400" aria-hidden="true" />
               Hours
             </h4>
-            <ul className="text-sm space-y-1">
-              <li>Mon – Thu: 9am – 7pm</li>
-              <li>Friday: 9am – 6pm</li>
-              <li>Saturday: 9am – 3pm</li>
-              <li>Sunday: 10am – 3pm</li>
-            </ul>
-            <div className="flex items-center gap-4 mt-5">
-              {/* Facebook */}
-              <a
-                href="https://www.facebook.com/p/Northern-Lights-Tan-Spa-Inc-100063708154086/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="text-gray-400 hover:text-orange-400 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
-                </svg>
-              </a>
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/northern_lights_tan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-gray-400 hover:text-orange-400 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                </svg>
-              </a>
+            <div className="rounded-2xl bg-white/[0.03] p-2 ring-1 ring-white/10">
+              <HoursList tone="dark" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500">
+      <div className="border-t border-white/10">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-center text-xs text-slate-500 sm:flex-row sm:text-left">
           <p>&copy; {new Date().getFullYear()} Northern Lights Tan & Wellness. All rights reserved.</p>
-          <p className="mt-1">Web Design, Development service By <a href="https://www.freelancerhasib.tech/" className="text-pink-400 hover:text-pink-300 transition-colors">freelancerhasib</a></p>
-
+          <p>
+            Web Design, Development service By{" "}
+            <a
+              href="https://www.freelancerhasib.tech/"
+              className="text-pink-400 transition-colors hover:text-pink-300"
+            >
+              freelancerhasib
+            </a>
+          </p>
         </div>
       </div>
     </footer>

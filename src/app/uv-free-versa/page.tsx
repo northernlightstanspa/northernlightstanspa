@@ -1,7 +1,7 @@
-"use client";
 import Image from "next/image";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { LuDroplets, LuSparkles, LuTag } from "react-icons/lu";
+import Bubbles from "@/components/Bubbles";
+import PageHero from "@/components/PageHero";
 
 const pricingLevels = [
   { level: "LEVEL 1 - LIGHT", price: "$27/SESSION" },
@@ -10,182 +10,184 @@ const pricingLevels = [
   { level: "LEVEL 4 - DOUBLE DARK", price: "$40/SESSION" },
 ];
 
+// Light → double dark swatches for the level cards
+const levelShades = ["bg-amber-200", "bg-amber-400", "bg-orange-600", "bg-orange-900"];
+
 export default function UVFreeVersaPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative h-36 md:h-44">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/img/home_hero_bg.jpg')" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/70 to-cyan-400/50"></div>
-          </div>
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-2xl md:text-4xl font-bold text-white drop-shadow-lg">
-                UV-Free Versa Pro
-              </h1>
-              <p className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">&amp;</p>
-              <p className="text-2xl md:text-4xl font-bold text-white drop-shadow-lg">
-                Versa Pro Wellfit
-              </p>
+    <>
+      <PageHero
+        title="UV-Free Versa Pro"
+        crumb="UV-Free Versa Pro"
+        subtitle={
+          <>
+            <p className="text-xl md:text-2xl">&amp;</p>
+            <p>Versa Pro Wellfit</p>
+          </>
+        }
+      />
+
+      {/* Versa Spa Pro Section */}
+      <section className="section">
+        <Bubbles />
+
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
+          <div className="reveal mb-12 text-center">
+            <div className="mx-auto max-w-md overflow-hidden rounded-3xl bg-white p-4 shadow-lg ring-1 ring-slate-900/5">
+              <Image
+                src="/img/uv-free-versa/versaspapro-logo.jpeg"
+                alt="VersaSpa Pro - beyond tan"
+                width={694}
+                height={286}
+                className="h-auto w-full"
+              />
             </div>
           </div>
-        </section>
 
-        {/* Versa Spa Pro Section */}
-        <section className="py-12 bg-white">
-          <div className="max-w-4xl mx-auto px-4">
-            {/* Logo */}
-            <div className="text-center mb-8">
-              <div className="max-w-lg mx-auto">
-                <Image
-                  src="/img/uv-free-versa/versaspapro-logo.jpeg"
-                  alt="VersaSpa Pro - beyond tan"
-                  width={600}
-                  height={150}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-
-            {/* Main Image */}
-            {/* <div className="max-w-md mx-auto mb-12">
-              <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
-                <Image
-                  src="/img/uv-free-versa/versaspa-model.jpeg"
-                  alt="VersaSpa Pro Booth"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div> */}
-            {/* Featured Image with Floating Card */}
-            <div className="relative mb-20">
-              
-              <div className="relative w-full max-w-5xl mx-auto">
-                <div className="aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl shadow-slate-200/50">
-                   <video
+          {/* Featured Image with Floating Card */}
+          <div className="reveal relative mb-24">
+            <div className="relative mx-auto w-full max-w-5xl">
+              <div className="media-frame">
+                <div className="aspect-[16/9] overflow-hidden rounded-[1.6rem] bg-black">
+                  <video
                     controls
-                    className="w-full h-full object-cover"
+                    preload="metadata"
+                    className="h-full w-full object-cover"
                     poster="/img/uv-free-versa/versaspa-model.jpeg"
                   >
                     <source src="/img/uv-free-versa/versaspa-pro-consumer-video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
-                
-                {/* Floating Badge */}
-                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-white px-8 py-4 rounded-2xl shadow-xl border border-slate-100">
-                  <p className="text-slate-600 text-sm font-medium">Trusted by <span className="text-teal-600 font-bold">10,000+</span> customers</p>
-                </div>
-              </div>
-             
-            </div>
-            
-            {/* Pricing Section */}
-            <div className="max-w-md mx-auto mb-12">
-              <div className="space-y-4">
-                {pricingLevels.map((item, index) => (
-                  <div key={index} className="border-b border-gray-200 pb-2">
-                    <p className="font-semibold text-gray-800 underline">{item.level}</p>
-                    <p className="text-gray-600">{item.price}</p>
-                  </div>
-                ))}
               </div>
 
-              {/* Solution Info */}
-              <div className="mt-8 space-y-4 text-sm text-gray-700">
-                <div>
-                  <h4 className="font-semibold underline">Bronze or Clear Solution Available</h4>
-                  <p className="mt-1">
-                    Choose either a Bronzed look (feels or clearer) or add... make to control how tanner (bronze).
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <span className="font-semibold">Clear</span> gives an even natural-at-once, striking, natural-shimmered tan coverage over the next 4-8 hours.
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <span className="font-semibold">Bronze</span> gives an bronze for an immediate color. Fused with a DHA setting, the self-tanning tan then develops over the next 4-8 hours.
-                  </p>
-                </div>
-              </div>
-
-              {/* Additional Services */}
-              <div className="mt-8 space-y-4 text-sm text-gray-700">
-                <div>
-                  <h4 className="font-semibold underline">PH BALANCING PREP SPRAY</h4>
-                  <p className="mt-1">
-                    Start your tan with a ProSer, or for business-skin pH balance. deep-face and arms spray, it has ability to enhance UART to any session - $3
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold underline">AFTER TAN MOISTURIZER</h4>
-                  <p className="mt-1">
-                    Provides necessary hydration to protect help prolong your tan with coverage after tanning - Coconut skin and... and salty &quot;just-walked-in Beach&quot; features.. the mixture brings vital change and restoration of all skin at the skin. Finished with Single Note scents to help increase a luxurious Add to any session -$3
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-gray-200">
-                  <p>Moisturizer Only $6</p>
-                  <p>Legs Only $10</p>
-                  <p>Face Only $10</p>
-                  <p>Add Legs to a Session $5</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Divider */}
-            <hr className="my-12 border-gray-200" />
-
-            {/* Wellfit Section */}
-            <div className="text-center ">
-              {/* Wellfit Logo */}
-              <div className="max-w-md mx-auto ">
-                <Image
-                  src="/img/uv-free-versa/wellfit-logo-black.png"
-                  alt="VersaSpa Wellfit Logo"
-                  width={600}
-                  height={100}
-                  className="w-full h-auto"
-                />
-              </div>
-             
-            </div>
-
-            {/* Video Section */}
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
-                <div className="p-2">
-                 
-                  <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden">
-                    <iframe 
-                      width="100%" 
-                      height="100%" 
-                      src="https://www.youtube.com/embed/mk_5do8_yEU?si=_3htS4MSUR3env-O" 
-                      title="YouTube video player" 
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                      referrerPolicy="strict-origin-when-cross-origin" 
-                      allowFullScreen
-                      className="absolute inset-0 w-full h-full"
-                    ></iframe>
-                  </div>
-                
-                </div>
+              {/* Floating Badge */}
+              <div className="absolute -bottom-8 left-1/2 w-max -translate-x-1/2 rounded-2xl border border-slate-100 bg-white px-6 py-3 shadow-xl sm:-bottom-10 sm:px-8 sm:py-4">
+                <p className="text-sm font-medium text-slate-600">
+                  Trusted by <span className="font-bold text-teal-600">10,000+</span> customers
+                </p>
               </div>
             </div>
           </div>
-        </section>
-      </main>
-      <Footer />
-    </div>
+
+          {/* Pricing Section */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="reveal card p-6 sm:p-8">
+              <div className="space-y-3">
+                {pricingLevels.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3.5 ring-1 ring-slate-200/80"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`h-8 w-8 flex-shrink-0 rounded-full ring-4 ring-white shadow ${levelShades[index]}`} />
+                      <p className="font-semibold text-slate-800">{item.level}</p>
+                    </div>
+                    <p className="rounded-full bg-orange-50 px-3 py-1 text-sm font-semibold whitespace-nowrap text-orange-600">
+                      {item.price}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Solution Info */}
+            <div className="reveal card space-y-4 p-6 text-sm text-slate-700 sm:p-8">
+              <div>
+                <h4 className="flex items-center gap-2 text-base font-semibold text-slate-900">
+                  <LuSparkles className="h-4 w-4 text-orange-500" aria-hidden="true" />
+                  Bronze or Clear Solution Available
+                </h4>
+                <p className="mt-2">
+                  Choose either a Bronzed look (feels or clearer) or add... make to control how tanner (bronze).
+                </p>
+              </div>
+              <div className="rounded-2xl bg-cyan-50/70 p-4 ring-1 ring-cyan-100">
+                <p>
+                  <span className="font-semibold">Clear</span> gives an even natural-at-once, striking, natural-shimmered tan coverage over the next 4-8 hours.
+                </p>
+              </div>
+              <div className="rounded-2xl bg-orange-50/70 p-4 ring-1 ring-orange-100">
+                <p>
+                  <span className="font-semibold">Bronze</span> gives an bronze for an immediate color. Fused with a DHA setting, the self-tanning tan then develops over the next 4-8 hours.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Services */}
+          <div className="mt-6 grid grid-cols-1 gap-6 text-sm text-slate-700 md:grid-cols-3">
+            <div className="reveal card p-6">
+              <h4 className="font-semibold text-slate-900">PH BALANCING PREP SPRAY</h4>
+              <p className="mt-2">
+                Start your tan with a ProSer, or for business-skin pH balance. deep-face and arms spray, it has ability to enhance UART to any session - $3
+              </p>
+            </div>
+
+            <div className="reveal card p-6">
+              <h4 className="font-semibold text-slate-900">AFTER TAN MOISTURIZER</h4>
+              <p className="mt-2">
+                Provides necessary hydration to protect help prolong your tan with coverage after tanning - Coconut skin and... and salty &quot;just-walked-in Beach&quot; features.. the mixture brings vital change and restoration of all skin at the skin. Finished with Single Note scents to help increase a luxurious Add to any session -$3
+              </p>
+            </div>
+
+            <div className="reveal overflow-hidden rounded-3xl bg-slate-950 p-6 text-slate-300 shadow-xl">
+              <p className="mb-4 flex items-center gap-2 text-xs font-semibold tracking-[0.2em] text-orange-300 uppercase">
+                <LuTag className="h-4 w-4" aria-hidden="true" />
+                Add-ons
+              </p>
+              <div className="space-y-2.5">
+                <p>Moisturizer Only $6</p>
+                <p>Legs Only $10</p>
+                <p>Face Only $10</p>
+                <p>Add Legs to a Session $5</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="my-20 flex items-center gap-4 md:my-24" aria-hidden="true">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-300" />
+            <LuDroplets className="h-6 w-6 text-cyan-500" />
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-300" />
+          </div>
+
+          {/* Wellfit Section */}
+          <div className="reveal text-center">
+            {/* Wellfit Logo */}
+            <div className="mx-auto max-w-sm">
+              <Image
+                src="/img/uv-free-versa/wellfit-logo-black.png"
+                alt="VersaSpa Wellfit Logo"
+                width={596}
+                height={199}
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
+
+          {/* Video Section */}
+          <div className="reveal mx-auto mt-10 max-w-3xl">
+            <div className="media-frame">
+              <div className="relative aspect-video overflow-hidden rounded-[1.6rem] bg-slate-900">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/mk_5do8_yEU?si=_3htS4MSUR3env-O"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
