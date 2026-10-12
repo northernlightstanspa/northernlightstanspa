@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -36,15 +36,7 @@ export default function PromotionsPage() {
 
           <div className="max-w-4xl mx-auto px-4">
             {/* January Specials Card */}
-            <div className="relative rounded-lg overflow-hidden shadow-xl mb-12">
-              <Image
-                src="/img/promotion/october.png"
-                alt="october Specials"
-                width={800}
-                height={800}
-                className="w-full h-auto"
-              />
-            </div>
+
 
 
             {/* Placeholder for future promotions - Update monthly */}
